@@ -1,0 +1,33 @@
+<h2 class="h1">Joueurs</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Pseudonyme</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let joueur of joueurs">
+      <td>
+        <a routerLink="/joueurs/{{joueur.pseudonyme}}">{{joueur.pseudonyme}}</a>
+      </td>
+      <td class="text-end">
+        <button type="button" class="btn btn-danger" title="delete" (click)="delete(joueur)">x</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="joueurs.length === 0" class="text-center m-5">
+  <span class="spinner-border text-primary"></span>
+  <span class="mx-3">Chargement en cours</span>
+</div>
+
+<div class="bg-light p-3 card">
+  <div class="mb-3 mt-3">
+    <label for="new-hero" class="form-label">Pseudonyme:</label>
+    <input class="form-control" id="new-hero" #heroName />
+  </div>
+  <button type="button" class="btn btn-primary" (click)="add(heroName.value); heroName.value=''">Ajouter</button>
+</div>

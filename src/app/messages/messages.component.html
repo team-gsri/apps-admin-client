@@ -1,0 +1,6 @@
+<div class="alert-fixed p-5">
+  <div *ngFor='let message of messageService.messages' class="alert alert-warning alert-dismissible show">
+    <button type="button" class="btn-close" data-bs-dismiss="alert">.</button>
+    {{message}}
+  </div>
+</div>
