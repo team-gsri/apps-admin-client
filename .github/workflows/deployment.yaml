@@ -1,0 +1,41 @@
+name: continuous deployment
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout source files
+        uses: actions/checkout@v3
+
+      - name: Complete installation
+        run: npm ci
+
+      - name: Build project
+        run: npm nx build
+
+      - name: Find new product version
+        uses: arwynfr/actions-conventional-versioning/get-newVersion@v2
+        id: next-version
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Build and publish docker image
+        run: >
+          docker build --push
+            --file build/Dockerfile
+            --tag ghcr.io/team-gsri/apps-admin-client:${{ steps.next-version.outputs.next-version }}
+            dist/gsri-admin
+
+      - name: Publish GitHub release
+        uses: arwynfr/actions-conventional-versioning@v2
