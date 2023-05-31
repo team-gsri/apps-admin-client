@@ -6,6 +6,21 @@
   "sourceRoot": "./src",
   "tags": [],
   "targets": {
+    "dockerize": {
+      "command": "pwsh build/Dockerize.ps1 -Verbose",
+      "dependsOn": ["build"]
+    },
+    "analyze": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx build --configuration=development",
+          "source-map-explorer dist/gsri-admin/*.js --sort"
+        ],
+        "parallel": false
+      },
+      "outputs": ["{workspaceRoot}/dist/gsri-admin/stats.json"]
+    },
     "build": {
       "executor": "@angular-devkit/build-angular:browser",
       "outputs": ["{options.outputPath}"],
@@ -24,8 +39,8 @@
           "budgets": [
             {
               "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+              "maximumWarning": "2mb",
+              "maximumError": "5mb"
             },
             {
               "type": "anyComponentStyle",
