@@ -18,7 +18,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './joueurs-list.component.html',
   styleUrls: ['./joueurs-list.component.scss'],
 })
-export class JoueursComponent implements OnInit {
+export class JoueursListComponent implements OnInit {
 
   joueurs: Joueur[] = [];
 

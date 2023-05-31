@@ -1,0 +1,26 @@
+name: continuous integration
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout source files
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint sources
+        run: npm exec nx lint
+
+      - name: Run unit tests
+        run: npm exec nx test
+
+      - name: Build project
+        run: npm exec nx build
