@@ -35,11 +35,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Build Docker image
-        run: >
-          docker build
-            --file build/Dockerfile
-            --tag ghcr.io/team-gsri/apps-admin-client:${{ steps.next-version.outputs.next-version }}
-            dist/gsri-admin
+        run: docker build --file build/Dockerfile --tag ghcr.io/team-gsri/apps-admin-client:${{ steps.next-version.outputs.next-version }} dist/gsri-admin
       
       - name: Publish Docker image
         run: docker push ghcr.io/team-gsri/apps-admin-client:${{ steps.next-version.outputs.next-version }}
